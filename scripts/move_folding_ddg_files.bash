@@ -5,8 +5,8 @@
 # Author: Ting-Yi Su (ting-yi.su@mail.mcgill.ca)
 # '''
 
-cd /home/tingyisu/scratch/foldx_buildmodel_all
-folding_ddg_dir=/home/tingyisu/scratch/folding_ddg
+cd /home/username/scratch/foldx_buildmodel_all
+folding_ddg_dir=/home/username/scratch/folding_ddg
 mkdir $folding_ddg_dir
 echo Created individual folding DDG folder in the scratch dir
 for i in {0..85}

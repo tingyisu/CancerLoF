@@ -5,11 +5,11 @@
 # Author: Ting-Yi Su (ting-yi.su@mail.mcgill.ca)
 # '''
 
-binding_ddg_dir=/home/tingyisu/scratch/binding_ddg
+binding_ddg_dir=/home/username/scratch/binding_ddg
 mkdir $binding_ddg_dir
 echo Created individual binding DDG folder in the scratch dir
 # move PSSM files
-cd /home/tingyisu/scratch/foldx_pssm_all
+cd /home/username/scratch/foldx_pssm_all
 for i in {0..28}
 do
 	# echo ${dir}
