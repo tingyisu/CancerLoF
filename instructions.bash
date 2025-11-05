@@ -455,12 +455,11 @@ scp username@graham.computecanada.ca:/home/username/scratch/dbsnp/data/*all.tsv 
 # (9) Remove ambiguous dbSNP mutations
 # i.e. mutations where the HGVSC (nucleotide change on mRNA/cDNA) doesn't correspond with the HGVSG (nucleotide change on chromosome)
 # mutations are written to data/processed/mutations
+# back to local dir
 python3 remove_ambiguous_dbsnp_mutations.py
 
 # **3. Process COSMIC genome screen mutations**
-# back to compute canada
-# process COSMIC genome screen mutations
-bash process_cosmic_genome_mutations.bash # uses process_genome_screen_mutations.py 
+bash process_cosmic_genome_mutations.bash # uses process_cosmic_genome_screen_mutations.py 
 
 # **4. Process COSMIC mutations in CGC (Cancer Gene Census)**
 python3 process_cosmic_cgc_mutations.py
@@ -482,7 +481,7 @@ python3 get_ir_mutations.py
 python3 get_foldx_mutations.py
 
 # ----------CREATE CONFIGURATION FILES AND RUN FOLDX PSSM AND BUILDMODEL (ENERGY CALCULATIONS)----------
-# go back to compute canada
+# need server (e.g., compute canada) for this part
 # copy the following files over
 # create a 'files' directory in your projects folder
 cd ~/projects/def-*/username/foldx
