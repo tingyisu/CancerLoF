@@ -1,5 +1,5 @@
 '''
-Removed unmodeled PPIs which MODELLER was unable to build structures for
+Removes unmodeled PPIs which MODELLER was unable to build structures for
 ----------------------------------------------
 Author: Ting-Yi Su (ting-yi.su@mail.mcgill.ca)
 '''

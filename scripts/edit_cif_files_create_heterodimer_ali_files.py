@@ -1,5 +1,5 @@
 '''
-Creates a dictionary of PDB auth_seq_id (author-specified numbering) to label_seq_id (PDB assigned sequential numbering) mappings for residues
+Create .ali files (containing BLASTP alignments of heterodimers) for running MODELLER
 ----------------------------------------------
 Author: Ting-Yi Su (ting-yi.su@mail.mcgill.ca)
 '''
