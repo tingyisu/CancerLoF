@@ -1,5 +1,5 @@
 '''
-Combine pickle files across all SLURM jobs into a single pickle file
+Combine pickle files from all SLURM jobs into a single pickle file
 ----------------------------------------------
 Author: Ting-Yi Su (ting-yi.su@mail.mcgill.ca)
 '''

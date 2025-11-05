@@ -1,6 +1,6 @@
 '''
 Processes .json.bz2 file (from https://ftp.ncbi.nih.gov/snp/latest_release/JSON/) for one chromosome one at at time
-Writes all non-pathogenic dbSNP missense mutations that have 1000genomes frequencies for the ALT allele into dbsnp_missense_mutations_chr*.tsv
+Writes all non-pathogenic dbSNP missense mutations that have 1000 Genomes frequencies for the ALT allele into dbsnp_missense_mutations_chr*.tsv
 ----------------------------------------------
 Author: Ting-Yi Su (ting-yi.su@mail.mcgill.ca)
 '''
@@ -162,15 +162,8 @@ class ProcessJson:
 
 	def process_dbsnp_json_bz2(self):
 
-		# with open('../data/original/test_dbsnp_rs4525.json', 'r') as f:
-		#     rs_obj = json.load(f)
-
-		# i = 0
 		print('Processing .json.bz2 file for chromosome', self.chromosome, '...')
 
-		# ADD BACK LATER
-		# 'refsnp-chr' + self.chromosome + '.json.bz2'
-		# 'test_dbsnp', 'rs396190.json.bz2'
 		with bz2.BZ2File(osp.join('refsnp-chr' + self.chromosome + '.json.bz2'), 'rb') as f_in, \
 			open(osp.join(self.data_dir, 'dbsnp_missense_mutations_chr' + self.chromosome + '.tsv'), 'w') as f_write, \
 			open(osp.join(self.data_dir, 'dbsnp_nonstop_mutations_chr' + self.chromosome + '.tsv'), 'w') as f_write_nonstop, \
@@ -193,10 +186,6 @@ class ProcessJson:
 
 			for line in f_in:
 				rs_obj = json.loads(line.decode('utf-8'))
-				# i +=1 
-
-				# if i > 40000:
-				#     return
 	   
 				# re-initialize for the next SNP
 				self.rs = {}

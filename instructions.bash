@@ -43,38 +43,38 @@ wget ftp://ftp.ncbi.nlm.nih.gov/refseq/H_sapiens/mRNA_Prot/human.*.protein.faa.g
 gunzip human.*.protein.faa.gz
 cat * > ../../processed/merged_ref_seq_protein.fa
 
-# download Ensembl mRNA/protein transcripts to UniProt mappings
+# **4. Ensembl mRNA/protein transcripts to UniProt mappings**
 wget ftp://ftp.ensembl.org/pub/current_tsv/homo_sapiens/Homo_sapiens.GRCh38.112.uniprot.tsv.gz
 gunzip Homo_sapiens.GRCh38.112.uniprot.tsv.gz
 
-# download protein sequences form Ensembl protein acessions (ENSP*)
+# **5. Ensembl protein sequences (accession ENSP*)**
 wget ftp://ftp.ensembl.org/pub/release-112/fasta/homo_sapiens/pep/Homo_sapiens.GRCh38.pep.all.fa.gz
 gunzip Homo_sapiens.GRCh38.pep.all.fa.gz
 
-# **4. Uniprot reviewed (UniProtKB/SWISS-PROT) human reference proteome in list and FASTA format**
+# **6. Uniprot reviewed (UniProtKB/SWISS-PROT) human reference proteome in list and FASTA format**
 cd ../
 wget 'https://rest.uniprot.org/uniprotkb/stream?format=list&query=%28%28taxonomy_id%3A9606%29%20AND%20%28reviewed%3Atrue%29%29%20AND%20%28model_organism%3A9606%29%20AND%20%28reviewed%3Atrue%29' -O uniprot_reviewed_human_proteome.list
 wget 'https://rest.uniprot.org/uniprotkb/stream?format=fasta&query=%28%28taxonomy_id%3A9606%29%20AND%20%28reviewed%3Atrue%29%29%20AND%20%28model_organism%3A9606%29%20AND%20%28reviewed%3Atrue%29' -O uniprot_reviewed_human_proteome.fasta
 
-# **5. HI-Union human binary protein-protein interaction dataset**
+# **7. HI-Union human binary protein-protein interaction dataset**
 wget http://www.interactome-atlas.org/data/HI-union.tsv
 
-# **6. IntAct human binary protein-protein interaction dataset**
+# **8. IntAct human binary protein-protein interaction dataset**
 wget ftp://ftp.ebi.ac.uk/pub/databases/intact/current/psimitab/intact.zip
 unzip intact.zip
 rm intact.zip intact_negative.txt
 
-# **7. Protein Data Bank (PDB) SeqRes chain sequences**
+# **9. Protein Data Bank (PDB) SeqRes chain sequences**
 wget https://ftp.wwpdb.org/pub/pdb/derived_data/pdb_seqres.txt
 
-# **8. File containing the resolutions of PDB structures**
+# **10. File containing the resolutions of PDB structures**
 wget ftp://ftp.wwpdb.org/pub/pdb/derived_data/index/resolu.idx
 
-# **9. ClinVar (Mendelian disease-causing) mutations
+# **11. ClinVar (Mendelian disease-causing) mutations
 wget ftp://ftp.ncbi.nlm.nih.gov/pub/clinvar/tab_delimited/variant_summary.txt.gz
 gunzip variant_summary.txt.gz
 
-# **10. COSMIC (cancer-associated) mutations
+# **12. COSMIC (cancer-associated) mutations
 # download COSMIC mutations
 # (1) Mutations in Cancer Gene Census (Cosmic_MutantCensus_v100_GRCh38.tsv) --> mutations in cancer-driving genes
 # (2) Genome screen mutants (coding mutations across entire cancer genome) (Cosmic_GenomeScreensMutant_v100_GRCh38.tsv) --> cancer-associated
@@ -150,17 +150,17 @@ cut -d$'\t' -f 1-2 intact_blast_results_with_seq_eval-5.tsv | awk -F"\t" '!seen[
 # run the following commands one-by-one in the script directory on your server:
 
 # (4) Find possible homologs from BLASTP alignment results
-python3 process_blast_results.py -o --output_directory 
+python3 process_blast_results.py -o <output_directory> 
 
 # (5) Get HI-union and IntAct pdb_chain_dicts (dictionaries of pairs of PDB chains) & download PDB structures in .cif (mmCIF) format
-python3 get_hiunion_pdb_chain_dict.py -d --pdb_download_path -o --output_directory
-python3 get_intact_pdb_chain_dict.py -d --pdb_download_path -o --output_directory
+python3 get_hiunion_pdb_chain_dict.py -d <pdb_download_path> -o <output_directory>
+python3 get_intact_pdb_chain_dict.py -d <pdb_download_path> -o <output_directory>
 
 # (6) Split the HI-union pdb_chain_dict into 20 jobs and the IntAct pdb_chain_dict into 50 jobs
-python3 split_pdb_chain_dict.py -o --output_directory -u 20 -i 50 # 20 splits for HI-Union, 50 for IntAct
+python3 split_pdb_chain_dict.py -o <output_directory> -u 20 -i 50 # 20 splits for HI-Union, 50 for IntAct
 
 # (7) Create SLURM job files to find interfacial residues between pairs of PDB chains
-python3 create_residues_slurm_files.py -d --pdb_download_path -o --output_directory -u 20 -i 50 -n 5 -e --email_address -a --account 
+python3 create_residues_slurm_files.py -d <pdb_download_path> -o <output_directory> -u 20 -i 50 -n 5 -e <email_address> -a <account> 
 python3 create_bash_for_submitting_residues_slurm_jobs.py -u 20 -i 50 
 
 # (8) Submit SLURM jobs
@@ -178,8 +178,8 @@ cat hiunion_memo_residues_combined.tsv intact_memo_residues_combined.tsv > memo_
 
 # (11) Run the following python scripts to write interfacial residues found in *_memo_residues_combined.tsv to file
 cd ..
-python3 hiunion_write_interactions.py -o --output_directory
-python3 intact_write_interactions.py -o --output_directory
+python3 hiunion_write_interactions.py -o <output_directory>
+python3 intact_write_interactions.py -o <output_directory>
 
 # (12) Create a dictionary storing PDB auth_seq_id to label_seq_id mappings for converting auth residues to label residues
 sbatch get_auth_label_dict.slurm # change the -d (--pdb_download_path), -o (--output_directory), and sbatch --mail_user and --account arguments
@@ -204,10 +204,8 @@ python3 build_structural_interactome.py
 # threshold for templates: 0.0 < PDB resolution <= 3.5 & BLASTP alignment bitscore >= 50
 python3 select_pdb_structural_template.py
 
-# CAN THIS BE DONE HERE? AFTER SELECTING PDB STRUCTURAL TEMPLATES
-# WAS ORIGINALLY DONE BEFORE get_modeller_templates_foldx_mutations.py 
-# **1. Combine BLASTP alignments from HI-Union and IntAct interactomes**
-# the overlapping uniprot, pdb chain pairs should have the same BLASTP alignment
+# **5. Combine BLASTP alignments from HI-Union and IntAct interactomes**
+# overlapping pairs of uniprot, pdb-chain should have the same BLASTP alignment
 # will need this to run MODELLER (also reduces the number of computations needed)
 python3 compare_hiunion_intact_blast_alignments.py
 
@@ -217,6 +215,8 @@ python3 compare_hiunion_intact_blast_alignments.py
 # **1. Combine HI-union and IntAct structural templates**
 python3 get_combined_structural_templates.py
 
+
+# **2. Create data folders**
 cd ../data/processed
 mkdir alignments
 mkdir pdb_cif
@@ -225,22 +225,22 @@ mkdir mutations
 mkdir mutations_final
 cd pdb_cif
 mkdir modified_cif
-# make sure that data/processed/pdb_cif/modified_cif within pdb_cif is CASE SENSITIVE 
+
+# **3. Make sure that the 'modified_cif' folder is CASE SENSITIVE** 
 # otherwise chains such as S and s will be confused as the same chain
 # if using Windows OS, run Windows PowerShell as administrator
 # and type the following (replace <path> with the absolute path of your modified_cif directory)
 fsutil.exe file setCaseSensitiveInfo <path> enable
 
-# NEED TO REWRITE THE FOLLOWING SCRIPTS TO RUN ON COMPUTE CANADA
+# **NOTE: NEED TO REWRITE THE FOLLOWING SCRIPTS TO RUN ON COMPUTE CANADA/OTHER SERVER**
 # (1) edit_cif_files_create_heterodimer_ali_files.py
 # (2) run_modeller_heterodimer.py
-# and subsequent analyses/files to copy back
 
-# **2. Create files needed for running MODELLER**
+# **4. Create files needed for running MODELLER**
 cd ../../../../scripts
 python3 edit_cif_files_create_heterodimer_ali_files.py
 
-# **3. Download and run MODELLER** 
+# **5. Download and run MODELLER** 
 # NOTE: Please use a server for this step
 
 # (1) Install MODELLER (https://salilab.org/modeller/10.3/release.html#deb, choose either with conda or Linux distributions to run on compute canada)
@@ -260,7 +260,7 @@ fsutil.exe file setCaseSensitiveInfo <path> enable
 # take % 10000 of the indices (since .pdb files can't take over 4 chars)
 python3 run_modeller_heterodimer.py
 
-# (4) Remove all intermediate MODELLER files
+# (4) Remove all intermediate MODELLER files (to save space)
 # and move to ../data/processed/modeller
 rm *.ini *.rsr *.sch *.D00000001 *.V99990001
 mv *.pdb ../data/processed/modeller
@@ -275,9 +275,8 @@ python3 remove_unmodeled_ppis.py
 
 #-----------PREPARE STRUCTURAL MODELS FOR FOLDX ENERGY CALCULATIONS---------------
 
-# running on compute canada
-# on compute canada create the following dir
-# ~/projects/def-*/username/foldx
+# running on compute canada/other server
+# on compute canada create the following dir: ~/projects/def-*/username/foldx
 # underneath foldx, need the following directories & files (copy them over from local data dir)
 # (1) interactome
 # 	(i) all_combined_structural_templates_modeled.pickle
@@ -300,7 +299,6 @@ python3 remove_unmodeled_ppis.py
 # -n (or --num_splits)
 # -a (or --account)
 # -e (or --email_address)
-
 
 # **1. Make sure that your 'foldx_pdb' folder is CASE SENSITIVE** 
 # if using Windows OS, run Windows PowerShell as administrator
@@ -335,7 +333,7 @@ done
 # **4. Move all repaired PDB files to a single directory**
 cd ~/projects/def-*/username/foldx
 mkdir repaired_pdb
-cd ~/projects/def-yxia/tingyisu/foldx/foldx_pdb
+cd ~/projects/def-yxia/username/foldx/foldx_pdb
 for i in {0..n} # n = num_splits-1
 do
 	for file in split_$i/*_Repair.pdb
@@ -358,7 +356,7 @@ do
 	sbatch interfacial_residues_$i.slurm
 done
 
-# **8. Combine file outputs of all SLURM jobs into a single .tsv file**
+# **8. Combine .tsv outputs from all SLURM jobs into a single .tsv file**
 cd ~/projects/def-*/username/foldx/interactome
 cat modeller_heterodimer_structural_interactome_0.tsv > modeller_heterodimer_structural_interactome.tsv
 for i in {1..n} # n = num_splits-1
@@ -366,7 +364,7 @@ do
 	awk FNR!=1 modeller_heterodimer_structural_interactome_$i.tsv >> modeller_heterodimer_structural_interactome.tsv 
 done
 
-# **9. Combine pickle files across all SLURM jobs into a single pickle file**
+# **9. Combine .pickle outputs from all SLURM jobs into a single pickle file**
 cd ../
 python3 combine_repaired_pdb_interfacial_residues_pickle_files.py -s <script_dir> -n <num_splits>
 
@@ -468,16 +466,16 @@ python3 process_cosmic_cgc_mutations.py
 # onto the UniProt proteins in the two structural interactomes (HI-union-SI and IntAct-SI)
 python3 map_mutation_flanking_seq_to_uniprot.py
 
-# **5. Remove redundant mutations**
+# **6. Remove redundant mutations**
 # i.e. keep only one mutation with the same amino acid change (even if diff nucleotide change) at a given position on a UniProt protein
 python3 remove_redundant_mutations.py
 
-# **6. Find mutations that lie on interfacial residues (IR mutations)**
+# **7. Find mutations that lie on interfacial residues (IR mutations)**
 # do for both interfacial residues between structural templates and
 # for interfacial residues between MODELLER constructed homology models (after repairing using RepairPDB)
 python3 get_ir_mutations.py
 
-# **6. Prepare mutations for running FoldX PSSM and BuildModel**
+# **8. Prepare mutations for running FoldX PSSM and BuildModel**
 python3 get_foldx_mutations.py
 
 # ----------CREATE CONFIGURATION FILES AND RUN FOLDX PSSM AND BUILDMODEL (ENERGY CALCULATIONS)----------
@@ -520,7 +518,7 @@ do
 	cd ../
 done
 
-# **3. Move FoldX PSSM outputs (binding DDG) out of scratch dir**
+# **3. Move FoldX PSSM outputs (binding DDG) into separate folder in scratch dir**
 # if don't have much space in scratch dir, find edgetic mutations first
 # need to combine binding DDG files together into a folder
 bash move_binding_ddg_files.bash
@@ -562,7 +560,7 @@ done
 # should print 2000 for each split, other than the last split (which can range from 0-2000 mutations)
 bash check_buildmodel_jobs.bash
 
-# **10. Move FoldX BuildModel outputs (folding DDG) out of scratch dir**
+# **10. Move FoldX BuildModel outputs (folding DDG) into separate folder in scratch dir**
 # and into their own separate directory
 bash move_folding_ddg_files.bash
 
