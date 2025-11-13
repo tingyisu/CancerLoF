@@ -1,6 +1,6 @@
 #!/bin/bash
 # '''
-# Check whether BuildModel jobs were completely successfully
+# Move FoldX BuildModel (folding DDG) output files into a separate folder
 # ----------------------------------------------
 # Author: Ting-Yi Su (ting-yi.su@mail.mcgill.ca)
 # '''

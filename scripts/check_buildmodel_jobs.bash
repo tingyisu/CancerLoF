@@ -1,6 +1,6 @@
 #!/bin/bash
 # '''
-# Check whether BuildModel jobs were completely successfully
+# Check whether BuildModel jobs were completed successfully
 # ----------------------------------------------
 # Author: Ting-Yi Su (ting-yi.su@mail.mcgill.ca)
 # '''

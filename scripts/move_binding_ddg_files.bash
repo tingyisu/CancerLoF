@@ -1,6 +1,6 @@
 #!/bin/bash
 # '''
-# Move FoldX PSSM (binding DDG) output files
+# Move FoldX PSSM (binding DDG) output files into a separate folder
 # ----------------------------------------------
 # Author: Ting-Yi Su (ting-yi.su@mail.mcgill.ca)
 # '''
