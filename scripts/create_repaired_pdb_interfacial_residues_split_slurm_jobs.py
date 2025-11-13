@@ -16,8 +16,8 @@ def create_interfacial_residue_slurm_jobs(script_dir, num_splits, account, email
 			f.write('#SBATCH -o interfacial_residues_' + str(i) + '.%N.%j.log' + '\n')
 			f.write('#SBATCH -e interfacial_residues_' + str(i) + '.%N.%j.log' + '\n')
 			f.write('#SBATCH --mail-type=END,FAIL' + '\n') 
-			f.write('#SBATCH --mail-user=' + email_address + '\n') # ting-yi.su@mail.mcgill.ca
-			f.write('#SBATCH --account=' + account + '\n') # def-yxia
+			f.write('#SBATCH --mail-user=' + email_address + '\n') 
+			f.write('#SBATCH --account=' + account + '\n') 
 			f.write('python -u find_interfacial_residues_in_modeller_heterodimer.py -s ' + script_dir + ' -i ' + str(i) + '\n')
 
 def main():
