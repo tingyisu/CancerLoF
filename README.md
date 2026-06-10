@@ -2,6 +2,10 @@
 
 Scripts for structurally resolving the human protein interactome at the atomic level, mapping missense and nonsense mutations onto the structural interactomes, and distinguishing protein-folding destabilizing ("quasi-null") and protein-binding destabilizing ("edgetic") missense mutations. Such analyses allow for an interactome-wide analysis of the LoF effects of quasi-null and edgetic mutations and their contribution to cancer-driving potential. 
 
+## Citation
+
+Su, T.-Y., & Xia, Y. (2026). [Mutation-induced biophysical destabilization as a key contributor to cancer-driving potential in the human structural protein interactome](https://doi.org/10.64898/2026.04.15.718717). *bioRxiv*.
+
 ## Installation/Usage
 
 Python 3 is required.
