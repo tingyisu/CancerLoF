@@ -10,7 +10,7 @@
 # Please follow the steps below carefully
 # Some steps are very memory/time consuming to run and should ideally be run in parallel on a server (scripts for submitting SLURM jobs are provided for these steps).
 
-# first make sure you're in the MutDeleteriousness directory
+# first make sure you're in the CancerLoF directory
 # and create the following folders to store data
 mkdir data
 cd data
@@ -70,11 +70,11 @@ wget https://ftp.wwpdb.org/pub/pdb/derived_data/pdb_seqres.txt
 # **10. File containing the resolutions of PDB structures**
 wget ftp://ftp.wwpdb.org/pub/pdb/derived_data/index/resolu.idx
 
-# **11. ClinVar (Mendelian disease-causing) mutations
+# **11. ClinVar (Mendelian disease-causing) mutations**
 wget ftp://ftp.ncbi.nlm.nih.gov/pub/clinvar/tab_delimited/variant_summary.txt.gz
 gunzip variant_summary.txt.gz
 
-# **12. COSMIC (cancer-associated) mutations
+# **12. COSMIC (cancer-associated) mutations**
 # download COSMIC mutations
 # (1) Mutations in Cancer Gene Census (Cosmic_MutantCensus_v100_GRCh38.tsv) --> mutations in cancer-driving genes
 # (2) Genome screen mutants (coding mutations across entire cancer genome) (Cosmic_GenomeScreensMutant_v100_GRCh38.tsv) --> cancer-associated
@@ -530,7 +530,7 @@ python3 save_append_to_dict.py -f /home/username/scratch/binding_ddg -p /home/us
 
 # **5. Find edgetic (binding-destabilizing) mutations (using binding DDGs of IR mutations)**
 # find edgetic mutations
-python get_edgetic_mutations.py -s <script_dir> -c <scratch_dir>
+python3 get_edgetic_mutations.py -s <script_dir> -c <scratch_dir>
 
 # **6. Remove FoldX PSSM intermediate/output files to save space**
 # need to rm foldx_pssm_all to save space
